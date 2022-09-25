@@ -50,16 +50,24 @@ class Patrat(FormaGeometrica):
     def __init__(self, latura):
         self.__latura = latura
 
-    def get_latura(self):
+    @property
+    def latura(self):
+        return self.__latura
+
+    @latura.getter
+    def latura(self):
         print(f"Patratul are latura {self.__latura}")
         return self.__latura
 
-    def set_latura(self, noua_latura):
+    @latura.setter
+    def latura(self, noua_latura):
         print(f"Patratul avea latura {self.__latura}, acum are latura {noua_latura}")
         self.__latura = noua_latura
 
-    def del_latura(self):
-        self.__latura = None
+    @latura.deleter
+    def latura(self):
+        print("Se sterge latura")
+        del self.__latura
 
     def aria(self):
         return self.__latura ** 2
@@ -70,16 +78,24 @@ class Cerc(FormaGeometrica):
     def __init__(self, raza):
         self.__raza = raza
 
-    def get_raza(self):
+    @property
+    def raza(self):
+        return self.__raza
+
+    @raza.getter
+    def raza(self):
         print(f"Cercul are raza {self.__raza}")
         return self.__raza
 
-    def set_raza(self, noua_raza):
-        print(f"Cercul avea raza {self.__raza}, acum are raza {noua_raza}")
-        self.__raza = noua_raza
+    @raza.setter
+    def raza(self, raza):
+        print(f"Cercul avea raza {self.__raza}, acum are raza {raza}")
+        self.__raza = raza
 
-    def del_raza(self):
-        self.__raza = None
+    @raza.deleter
+    def raza(self):
+        print("Se sterge raza")
+        del self.__raza
 
     def aria(self):
         return self.__raza ** 2 * self.PI
@@ -94,11 +110,13 @@ patrat = Patrat(5)
 patrat.descrie()
 print(cerc.aria())
 print(patrat.aria())
-cerc.set_raza(7)
+cerc.raza = 7
 print(cerc.aria())
-cerc.get_raza()
-cerc.del_raza()
-cerc.get_raza()
-patrat.get_latura()
-patrat.set_latura(8)
-patrat.del_latura()
+cerc.raza
+del cerc.raza
+try:
+    cerc.raza
+except AttributeError as e:
+    print("Raza a fost stearsa")
+cerc = Cerc(10)
+cerc.raza
