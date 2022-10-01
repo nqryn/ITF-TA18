@@ -1,4 +1,3 @@
-from cffi.cffi_opcode import CLASS_NAME
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
