@@ -169,3 +169,36 @@ class Internet_Hero(unittest.TestCase):
         self.assertEqual(self.browser.current_url, "https://the-internet.herokuapp.com/login")
 
 
+# ● Test 12 - brute force password hacking
+# - Completează user tomsmith
+# - Găsește elementul //h4
+# - Ia textul de pe el și fă split după spațiu. Consideră fiecare cuvânt ca o
+# potențială parolă.
+# - Folosește o structură iterativă prin care să introduci rând pe rând
+# parolele și să apeși pe login.
+# - La final testul trebuie să îmi printeze fie
+# ‘Nu am reușit să găsesc parola’
+# ‘Parola secretă este [parola]’
+
+    def test_12_brute_force_password(self):
+
+        potential_password = self.browser.find_element(by=By.XPATH, value="//h4").text.split()
+        for parola in potential_password:
+            username = self.browser.find_element(value="username")
+            username.send_keys("tomsmith")
+            password = self.browser.find_element(value="password")
+            password.send_keys(parola)
+            self.browser.find_element(by=By.XPATH, value="//*[@id='login']/button/i").click()
+            if self.browser.current_url == "https://the-internet.herokuapp.com/login":
+                print("Nu am reusit sa gasesc parola")
+                continue
+            else:
+                print(f"Parola secreta este {parola}")
+                break
+
+
+
+
+
+
+
