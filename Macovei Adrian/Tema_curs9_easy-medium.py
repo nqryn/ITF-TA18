@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
@@ -57,6 +58,7 @@ class LoginTest(unittest.TestCase):
                         "Invalid message error!")
 
     def test_quit_error_invalid_credentials(self):  # TEST 8
+        # first try
         self.chrome.find_element(by=By.XPATH, value="//button[@type='submit']").click()
         sleep(1)
         # error_message = self.chrome.find_element(by=By.XPATH, value="//div[@id='flash']")
@@ -66,6 +68,20 @@ class LoginTest(unittest.TestCase):
         # self.assertFalse(self.chrome.find_element(by=By.CLASS_NAME, value="close").is_enabled())
         web_objects = self.chrome.find_elements(by=By.XPATH, value="//div[@id='flash']")
         self.assertListEqual(web_objects, [])
+
+        # second try
+        self.chrome.find_element(by=By.XPATH, value="//button[@type='submit']").click()
+        sleep(1)
+        self.chrome.find_element(by=By.CLASS_NAME, value="close").click()
+        sleep(2)
+        # for more efficiency we can find his parent first after to serch only there
+        try:
+            self.chrome.find_element(by=By.XPATH, value="//body/div[1]").find_element(by=By.XPATH,
+                                                                                      value="//div[@id='flash']")
+            exist = True
+        except NoSuchElementException:
+            exist = False
+        self.assertFalse(exist, "Message should not be displayed!")
 
     def test_label_text(self):  # TEST 9
         label_list = self.chrome.find_elements(by=By.XPATH, value="//label")
