@@ -84,3 +84,21 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(self.browser.current_url, 'https://the-internet.herokuapp.com/login', 'Nu am ajuns la pagina '
                                                                                                'dorita')
 
+        # test 12
+
+    def test_brute_force(self):
+        text_gasit = self.browser.find_element(By.CSS_SELECTOR, '#content > div > h4').text
+        print(text_gasit)
+        text_split = text_gasit.split(' ')
+        for i in range(len(text_split)):
+            self.browser.find_element(By.ID, 'username').send_keys('tomsmith')
+            self.browser.find_element(By.ID, 'password').send_keys(f'{text_split[i]}')
+            self.browser.find_element(By.XPATH, '//*[@id="login"]/button').click()
+            if self.browser.current_url == 'https://the-internet.herokuapp.com/secure':
+                print(f'Parola secreta este: {text_split[i]}')
+                time.sleep(3)
+                break
+        else:
+            print('Nu am reușit să găsesc parola')
+
+
