@@ -7,7 +7,6 @@ from selenium.webdriver.remote.webelement import WebElement
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
 class TestCaseCurs9(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -114,6 +113,28 @@ class TestCaseCurs9(unittest.TestCase):
         logout_button= self.browser.find_element(By.XPATH, value="//a[@class='button secondary radius']").click()
         url_nou= self.browser.current_url
         self.assertEqual(url_nou,"https://the-internet.herokuapp.com/login", "not equal")
+
+# Test 12
+    def test_twelve(self):
+        possible_password = self.browser.find_element(By.XPATH, value="//h4[contains(text(),'This is where you can log into the secure area. En')]").text
+        password_split = possible_password.split()
+        for word in password_split:
+            username = self.browser.find_element(By.NAME, value="username")
+            username.send_keys('tomsmith')
+            password = self.browser.find_element(By.NAME, value="password")
+            password.send_keys(word)
+            login_button = self.browser.find_element(By.XPATH, value="(//i[@class='fa fa-2x fa-sign-in'])[1]").click()
+            login_successful = self.browser.find_element(By.ID, value="flash").get_attribute("class")
+            if "success" in login_successful:
+                print(f'parola este {word}')
+                break
+        else:
+            print("nu am gasit parola")
+
+# mistakes I made
+#left username and username.send_keys outside of the for so it would imput all the passwords in the list but leave the username empty after firrst try
+#struggled at last part with if and else if we could quickly review this part.
+
 
 
 
