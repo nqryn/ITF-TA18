@@ -10,8 +10,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class Internet_Hero(unittest.TestCase):
 
+class InternetHero(unittest.TestCase):
 
     def setUp(self) -> None:
         self.browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -21,71 +21,62 @@ class Internet_Hero(unittest.TestCase):
         self.browser.implicitly_wait(5)
         self.browser.maximize_window()
 
-
-
     def tearDown(self) -> None:
         self.browser.quit()
 
-
-# ● Test 1
-# Verifică dacă noul url e corect
-
+    # ● Test 1
+    # Verifică dacă noul url e corect
 
     def test1_URL_check(self):
         self.assertEqual(self.noul_url, "https://the-internet.herokuapp.com/login",
                          "Error message: Noul URL nu este corect")
 
-
-
-# ● Test 2
-# - Verifică dacă page title e corect
+    # ● Test 2
+    # - Verifică dacă page title e corect
 
     def test2_page_title(self):
         page_title = self.browser.title
         self.assertEqual(page_title, "The Internet", "Error message: page title nu este corect (display : none)")
 
-# ● Test 3
-# - Verifică textul de pe elementul xpath=//h2 e corect
+    # ● Test 3
+    # - Verifică textul de pe elementul xpath=//h2 e corect
 
     def test3_check_element(self):
         element = self.browser.find_element(by=By.XPATH, value="//h2").text
         self.assertEqual(element, "Login Page")
 
-# ● Test 4
-# - Verifică dacă butonul de login este displayed
+    # ● Test 4
+    # - Verifică dacă butonul de login este displayed
 
     def test4_login_displayed(self):
         login_button = self.browser.find_element(by=By.XPATH, value="//*[@id='login']/button/i").is_displayed()
         self.assertTrue(login_button, "Error message: button not displayed")
 
-
-# ● Test 5
-# - Verifică dacă atributul href al linkului ‘Elemental Selenium’ e corect
+    # ● Test 5
+    # - Verifică dacă atributul href al linkului ‘Elemental Selenium’ e corect
 
     def test5_link_selenium(self):
         elem_selenium = self.browser.find_element(by=By.LINK_TEXT, value="Elemental Selenium").get_attribute("href")
         self.assertEqual(elem_selenium, "http://elementalselenium.com/")
 
-
-# ● Test 6
-# - Lasă goale user și pass
-# - Click login
-# - Verifică dacă eroarea e displayed
+    # ● Test 6
+    # - Lasă goale user și pass
+    # - Click login
+    # - Verifică dacă eroarea e displayed
 
     def test6_check_error(self):
         self.browser.find_element(by=By.XPATH, value="//*[@id='login']/button/i").click()
         error_message = self.browser.find_element(value="flash").is_displayed()
         self.assertTrue(error_message, "error message: the error is not displayed")
 
-
-# ● Test 7
-# - Completează cu user și pass invalide
-# - Click login
-# - Verifică dacă mesajul de pe eroare e corect
-# - Este și un x pus acolo extra așa că vom folosi soluția de mai jos
-# expected = 'Your username is invalid!'
-# self.assertTrue(expected in actual, 'Error message text is
-# incorrect')
+    # ● Test 7
+    # - Completează cu user și pass invalide
+    # - Click login
+    # - Verifică dacă mesajul de pe eroare e corect
+    # - Este și un x pus acolo extra așa că vom folosi soluția de mai jos
+    # expected = 'Your username is invalid!'
+    # self.assertTrue(expected in actual, 'Error message text is
+    # incorrect')
 
     def test7_incorrect_user_pass(self):
 
@@ -98,12 +89,11 @@ class Internet_Hero(unittest.TestCase):
         expected = 'Your username is invalid!'
         self.assertTrue(expected in actual, 'Error message text is incorrect')
 
-
-# ● Test 8
-# - Lasă goale user și pass
-# - Click login
-# - Apasă x la eroare
-# - Verifică dacă eroarea a dispărut
+    # ● Test 8
+    # - Lasă goale user și pass
+    # - Click login
+    # - Apasă x la eroare
+    # - Verifică dacă eroarea a dispărut
 
     def test_8_error_x_button(self):
 
@@ -117,12 +107,11 @@ class Internet_Hero(unittest.TestCase):
         except NoSuchElementException:
             print("The error is not displayed")
 
-
-# ● Test 9
-# - Ia ca o listă toate //label
-# - Verifică textul ca textul de pe ele să fie cel așteptat (Username și
-# Password)
-# - Aici e ok să avem 2 asserturi
+    # ● Test 9
+    # - Ia ca o listă toate //label
+    # - Verifică textul ca textul de pe ele să fie cel așteptat (Username și
+    # Password)
+    # - Aici e ok să avem 2 asserturi
 
     def test_9_label_check(self):
 
@@ -131,13 +120,13 @@ class Internet_Hero(unittest.TestCase):
         self.assertEqual(label_list[0].text, "Username")
         self.assertEqual(label_list[1].text, "Password")
 
-# ● Test 10
-# - Completează cu user și pass valide
-# - Click login
-# - Verifică ca noul url CONTINE /secure
-# - Folosește un explicit wait pentru elementul cu clasa ’flash succes’
-# - Verifică dacă elementul cu clasa=’flash succes’ este displayed
-# - Verifică dacă mesajul de pe acest element CONȚINE textul ‘secure area!’
+    # ● Test 10
+    # - Completează cu user și pass valide
+    # - Click login
+    # - Verifică ca noul url CONTINE /secure
+    # - Folosește un explicit wait pentru elementul cu clasa ’flash succes’
+    # - Verifică dacă elementul cu clasa=’flash succes’ este displayed
+    # - Verifică dacă mesajul de pe acest element CONȚINE textul ‘secure area!’
 
     def test_10_valid_login(self):
         username = self.browser.find_element(value="username")
@@ -153,11 +142,11 @@ class Internet_Hero(unittest.TestCase):
         self.assertTrue(elem_wanted.is_displayed())
         self.assertIn("secure area!", elem_wanted.text)
 
-# ● Test 11
-# - Completează cu user și pass valide
-# - Click login
-# - Click logout
-# - Verifică dacă ai ajuns pe https://the-internet.herokuapp.com/login
+    # ● Test 11
+    # - Completează cu user și pass valide
+    # - Click login
+    # - Click logout
+    # - Verifică dacă ai ajuns pe https://the-internet.herokuapp.com/login
 
     def test_11_logout(self):
         username = self.browser.find_element(value="username")
@@ -168,17 +157,16 @@ class Internet_Hero(unittest.TestCase):
         self.browser.find_element(by=By.XPATH, value="//*[@id='content']/div/a").click()
         self.assertEqual(self.browser.current_url, "https://the-internet.herokuapp.com/login")
 
-
-# ● Test 12 - brute force password hacking
-# - Completează user tomsmith
-# - Găsește elementul //h4
-# - Ia textul de pe el și fă split după spațiu. Consideră fiecare cuvânt ca o
-# potențială parolă.
-# - Folosește o structură iterativă prin care să introduci rând pe rând
-# parolele și să apeși pe login.
-# - La final testul trebuie să îmi printeze fie
-# ‘Nu am reușit să găsesc parola’
-# ‘Parola secretă este [parola]’
+    # ● Test 12 - brute force password hacking
+    # - Completează user tomsmith
+    # - Găsește elementul //h4
+    # - Ia textul de pe el și fă split după spațiu. Consideră fiecare cuvânt ca o
+    # potențială parolă.
+    # - Folosește o structură iterativă prin care să introduci rând pe rând
+    # parolele și să apeși pe login.
+    # - La final testul trebuie să îmi printeze fie
+    # ‘Nu am reușit să găsesc parola’
+    # ‘Parola secretă este [parola]’
 
     def test_12_brute_force_password(self):
 
@@ -195,10 +183,3 @@ class Internet_Hero(unittest.TestCase):
             else:
                 print(f"Parola secreta este {parola}")
                 break
-
-
-
-
-
-
-
