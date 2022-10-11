@@ -58,8 +58,9 @@ class MyTestCase(unittest.TestCase):
 
     def test_x_eroare(self):
         self.browser.find_element(By.XPATH, '//*[@id="login"]/button').click()
-        self.assertTrue(self.browser.find_element(By.CLASS_NAME, 'close').click(), 'Nu se poate inchide mesajul de eroare')
-        # eroare deoarece butonul x este nefunctional
+        error_message = self.browser.find_element(By.XPATH, '//*[@id="flash"]')
+        self.browser.find_element(By.CLASS_NAME, "close").click()
+        self.assertFalse(error_message.accessible_name, "Mesajul de eroare nu a disparut")
 
     def test_texte_label(self):
         lista = self.browser.find_elements(By.XPATH, '//label')
