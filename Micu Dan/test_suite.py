@@ -3,7 +3,7 @@ import HtmlTestRunner
 
 
 from .tema_curs9 import TestCaseCurs9
-from .automation_practice_tests import TestsEdge
+from .automation_practice_edge import TestsEdge
 
 
 class TestSuite(unittest.TestCase):
