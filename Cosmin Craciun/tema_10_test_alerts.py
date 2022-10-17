@@ -11,7 +11,7 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.service import Service as EdgeService
-from selenium.webdriver.remote.webelement import WebElement
+# from selenium.webdriver.remote.webelement import WebElement
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 
