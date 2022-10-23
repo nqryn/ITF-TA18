@@ -1,0 +1,1 @@
+from curs11_bdd_pom.features.browser import Browser

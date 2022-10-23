@@ -7,6 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
+
 class MyTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
@@ -28,18 +29,9 @@ class MyTestCase(unittest.TestCase):
     def test_title_page(self):
         self.assertEqual(self.browser.title, 'The Internet', 'Titlul paginii nu se potriveste')
 
-    def test_text_h2(self):
-        text_get = self.browser.find_element(By.XPATH, '//*[@id="content"]/div/h2')
-        self.assertTrue(text_get.is_displayed(), 'Nu este afisat textul')
-
     def test_button_login_displayed(self):
         button_login = self.browser.find_element(By.XPATH, '//*[@id="login"]/button/i')
         self.assertTrue(button_login.is_displayed(), 'Butonul de login nu apare')
-
-    def test_atribut_link(self):
-        atribut = self.browser.find_element(By.LINK_TEXT, 'Elemental Selenium').get_attribute('href')
-        print(atribut)
-        self.assertEqual(atribut, 'http://elementalselenium.com/', 'Cele doua link-uri nu sunt egale')
 
     def test_loginare_fara_credentiale(self):
         buton_login = self.browser.find_element(By.XPATH, '//*[@id="login"]/button')
@@ -47,6 +39,7 @@ class MyTestCase(unittest.TestCase):
         mesaj_eroare = self.browser.find_element(By.XPATH, '//*[@id="flash"]')
         self.assertTrue(mesaj_eroare.is_displayed(), 'Eroare deoarece nu apare mesajul cu atentionarea utilizatorului')
 
+    @unittest.skip
     def test_login_credentiale_gresite(self):
         self.browser.find_element(By.ID, 'username').send_keys('ceva')
         self.browser.find_element(By.ID, 'password').send_keys('altceva')
@@ -54,17 +47,6 @@ class MyTestCase(unittest.TestCase):
 
         expect_message = 'Your username is invalid!'
         self.assertTrue(expect_message in self.browser.find_element(By.ID, 'flash').text, 'Nu exista mesajul de eroare')
-
-    def test_x_eroare(self):
-        self.browser.find_element(By.XPATH, '//*[@id="login"]/button').click()
-        error_message = self.browser.find_element(By.XPATH, '//*[@id="flash"]')
-        self.browser.find_element(By.CLASS_NAME, "close").click()
-        self.assertFalse(error_message.accessible_name, "Mesajul de eroare nu a disparut")
-
-    def test_texte_label(self):
-        lista = self.browser.find_elements(By.XPATH, '//label')
-        self.assertEqual(lista[0].text, 'Username', 'Textul username-ului nu se potriveste')
-        self.assertEqual(lista[1].text, 'Password', 'Textul parolei nu se potriveste')
 
     def test_user_pass_valid(self):
         self.browser.find_element(By.ID, 'username').send_keys('tomsmith')
@@ -83,22 +65,3 @@ class MyTestCase(unittest.TestCase):
         self.browser.find_element(By.LINK_TEXT, 'Logout').click()
         self.assertEqual(self.browser.current_url, 'https://the-internet.herokuapp.com/login', 'Nu am ajuns la pagina '
                                                                                                'dorita')
-
-        # test 12
-
-    def test_brute_force(self):
-        text_gasit = self.browser.find_element(By.CSS_SELECTOR, '#content > div > h4').text
-        print(text_gasit)
-        text_split = text_gasit.split(' ')
-        for i in range(len(text_split)):
-            self.browser.find_element(By.ID, 'username').send_keys('tomsmith')
-            self.browser.find_element(By.ID, 'password').send_keys(f'{text_split[i]}')
-            self.browser.find_element(By.XPATH, '//*[@id="login"]/button').click()
-            if self.browser.current_url == 'https://the-internet.herokuapp.com/secure':
-                print(f'Parola secreta este: {text_split[i]}')
-                time.sleep(3)
-                break
-        else:
-            print('Nu am reușit să găsesc parola')
-
-
